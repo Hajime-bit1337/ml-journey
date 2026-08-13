@@ -3,3 +3,4 @@ data/
 sandbox/
 __pycache__/
 .ipynb_checkpoints/
+*.db
