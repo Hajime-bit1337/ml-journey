@@ -12,7 +12,7 @@ SELECT city, COUNT(*) FROM customers GROUP BY city;
 
 -- 4. Число заказов и общая сумма по каждому клиенту, с именем клиента
 -- Ожидаю 8 строк у клиента 999 имя - NULL
-SELECT c.name, o.customer_id, COUNT(*), ROUND(SUM(o.amount), 2) FROM customers AS c LEFT JOIN orders AS o ON c.id = o.customer_id GROUP BY o.customer_id;
+SELECT c.name, c.id, COUNT(o.customer_id), ROUND(SUM(o.amount), 2) FROM customers AS c LEFT JOIN orders AS o ON c.id = o.customer_id GROUP BY c.id;
 
 -- 5. Клиенты у которых средний чек выше среднего чека по всей базе
 -- Не могу предсказать ответа
@@ -24,7 +24,7 @@ SELECT c.id, c.name FROM customers AS c LEFT JOIN orders AS o ON c.id = o.custom
 
 -- 7. Месяц с наибольшей выручкой
 -- Ожидаю одну строку
-SELECT strftime('%Y-%m', order_date) AS month, ROUND(SUM(amount), 2) AS total FROM orders GROUP BY mounth ORDER BY total DESC LIMIT 1;
+SELECT strftime('%Y-%m', order_date) AS month, ROUND(SUM(amount), 2) AS total FROM orders GROUP BY month ORDER BY total DESC LIMIT 1;
 
 -- 8. Каждый заказ и его доля в общей сумме трат этого клиента в процентах
 -- Ожидаю 40 строк
@@ -44,4 +44,4 @@ SELECT c.city, ROUND(SUM(o.amount), 2) AS total FROM customers AS c LEFT JOIN or
 
 -- 12. 6 Людей с самыми бедными заказами
 -- Ожидаю 6 строк
-SELECT c.name, o.customer_id, ROUND(SUM(o.amount), 2) AS total FROM customers AS c LEFT JOIN orders AS o ON c.id = o.customer_id GROUP BY o.customer_id ORDER BY total LIMIT 6;
+SELECT c.name, o.customer_id, ROUND(SUM(o.amount), 2) AS total FROM customers AS c LEFT JOIN orders AS o ON c.id = o.customer_id WHERE o.customer_id IS NOT NULL GROUP BY o.customer_id ORDER BY total LIMIT 6;
