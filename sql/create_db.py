@@ -1,6 +1,8 @@
 import numpy, sqlite3 as sq3
 from datetime import date, timedelta
-conn = sq3.connect('sql/shop.db')
+from pathlib import Path
+
+conn = Path(__file__).resolve().parent / "shop.db"
 cur = conn.cursor()
 cur.executescript("""
     DROP TABLE IF EXISTS customers;
